@@ -1,0 +1,82 @@
+name: hopp_kapinda
+description: "Hopp Kapında - Premium teslimat uygulaması (yemek, market, tatlı, hızlı kurye)."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # Routing
+  go_router: ^14.2.0
+
+  # UI / Animations
+  google_fonts: ^6.2.1
+  flutter_animate: ^4.5.0
+  lottie: ^3.1.2
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.1
+  smooth_page_indicator: ^1.1.0
+  flutter_svg: ^2.0.10+1
+
+  # 🎬 Video Splash Screen
+  video_player: ^2.9.2
+
+  # Networking
+  dio: ^5.4.3+1
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.5
+  flutter_local_notifications: ^18.0.1
+
+  # Harita (sipariş takibi + konum seçimi)
+  google_maps_flutter: ^2.6.1
+
+  # Konum servisleri
+  geolocator: ^14.0.2
+  geocoding: ^4.0.0
+
+  # Arka plan konum takibi (kurye) — uygulama arka plana alınsa/ekran
+  # kapansa bile foreground service olarak çalışır, konum göndermeyi durdurmaz.
+  flutter_background_service: ^5.0.0
+
+  # Local storage
+  shared_preferences: ^2.2.3
+
+  # Utils
+  intl: ^0.19.0
+  equatable: ^2.0.5
+  url_launcher: ^6.3.2
+  audioplayers: ^6.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.11
+  riverpod_generator: ^2.4.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/categories/
+    - assets/icons/
+    - assets/videos/          # 🎬 MP4 intro için
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/hopplogo.png"
+
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/icons/hopplogo.png"
