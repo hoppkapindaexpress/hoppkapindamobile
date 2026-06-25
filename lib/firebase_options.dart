@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBmXMfgMILviYxD4B6gkktzA8r9qSsP5P8',
-    appId: '1:605466185443:ios:0610f0e9f119ad3dcb3fd6',
+    appId: '1:605466185443:ios:34c02d8f122a73bfcb3fd6',
     messagingSenderId: '605466185443',
     projectId: 'hopp-kapindaa',
     storageBucket: 'hopp-kapindaa.firebasestorage.app',
-    iosBundleId: 'com.example.hoppKapinda',
+    iosBundleId: 'com.hoppkapinda.app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
