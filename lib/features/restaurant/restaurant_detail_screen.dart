@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +38,7 @@ class _RestaurantDetailScreenState
   }
 
   void _rebuildTabs(List<Product> products) {
-    final groups = <String>['Popüler Lezzetler'];
+    final groups = <String>['PopÃ¼ler Lezzetler'];
     for (final p in products) {
 
     }
@@ -90,7 +90,7 @@ class _RestaurantDetailScreenState
       {bool loading = false}) {
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        // ── Kapak ──────────────────────────────────────────────
+        // â”€â”€ Kapak â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         SliverAppBar(
           expandedHeight: 260,
           pinned: true,
@@ -114,7 +114,7 @@ class _RestaurantDetailScreenState
             background: Stack(
               fit: StackFit.expand,
               children: [
-                // Görsel
+                // GÃ¶rsel
                 store.imageUrl != null && store.imageUrl!.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl: store.imageUrl!,
@@ -149,7 +149,7 @@ class _RestaurantDetailScreenState
           ),
         ),
 
-        // ── Mağaza Bilgileri ───────────────────────────────────
+        // â”€â”€ MaÄŸaza Bilgileri â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         SliverToBoxAdapter(
           child: Container(
             color: Colors.white,
@@ -190,7 +190,7 @@ class _RestaurantDetailScreenState
                           .copyWith(color: AppColors.textMuted),
                     ),
                     const SizedBox(width: 8),
-                    Text('•',
+                    Text('â€¢',
                         style: AppTypography.bodySmall
                             .copyWith(color: AppColors.textMuted)),
                     const SizedBox(width: 8),
@@ -202,7 +202,7 @@ class _RestaurantDetailScreenState
                   ],
                 ),
                 const SizedBox(height: 8),
-                // Mağaza adı
+                // MaÄŸaza adÄ±
                 Text(store.name, style: AppTypography.displayMedium),
                 const SizedBox(height: 12),
                 // Info chips
@@ -247,7 +247,7 @@ class _RestaurantDetailScreenState
                   ),
                 ),
                 const SizedBox(height: 12),
-                // Ücretsiz teslimat banner
+                // Ãœcretsiz teslimat banner
                 if (store.deliveryFee == 0)
                   Container(
                     width: double.infinity,
@@ -264,7 +264,7 @@ class _RestaurantDetailScreenState
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            'Siparişiniz restoranın kuryesi tarafından hızlı ve sıcak olarak kapınıza teslim edilir.',
+                            'SipariÅŸiniz restoranÄ±n kuryesi tarafÄ±ndan hÄ±zlÄ± ve sÄ±cak olarak kapÄ±nÄ±za teslim edilir.',
                             style: AppTypography.bodySmall.copyWith(
                                 color: const Color(0xFF2E7D32)),
                           ),
@@ -273,7 +273,7 @@ class _RestaurantDetailScreenState
                     ),
                   ),
                 const SizedBox(height: 12),
-                // Ödeme tipi
+                // Ã–deme tipi
                 Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12, vertical: 10),
@@ -286,7 +286,7 @@ class _RestaurantDetailScreenState
                       const Icon(Icons.credit_card_rounded,
                           color: AppColors.primary, size: 20),
                       const SizedBox(width: 8),
-                      Text('Banka & Kredi Kartı',
+                      Text('Banka & Kredi KartÄ±',
                           style: AppTypography.bodySmall),
                     ],
                   ),
@@ -297,17 +297,17 @@ class _RestaurantDetailScreenState
           ),
         ),
 
-        // ── Tab Bar ────────────────────────────────────────────
+        // â”€â”€ Tab Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         SliverPersistentHeader(
           pinned: true,
           delegate: _TabBarDelegate(
             tabController: _tabController,
-            groups: _groups.isEmpty ? ['Menü'] : _groups,
+            groups: _groups.isEmpty ? ['MenÃ¼'] : _groups,
           ),
         ),
       ],
 
-      // ── Ürün Listesi ──────────────────────────────────────────
+      // â”€â”€ ÃœrÃ¼n Listesi â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : _groups.isEmpty
@@ -315,7 +315,7 @@ class _RestaurantDetailScreenState
               : TabBarView(
                   controller: _tabController,
                   children: _groups.map((group) {
-                    final grouped = group == 'Popüler Lezzetler'
+                    final grouped = group == 'PopÃ¼ler Lezzetler'
                         ? products
                         : products
                             .where((p) => true)
@@ -328,7 +328,7 @@ class _RestaurantDetailScreenState
 
   Widget _productListView(List<Product> products) {
     if (products.isEmpty) {
-      return const Center(child: Text('Ürün bulunamadı'));
+      return const Center(child: Text('ÃœrÃ¼n bulunamadÄ±'));
     }
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 100),
@@ -338,7 +338,7 @@ class _RestaurantDetailScreenState
           return Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Text(
-              '${_groups.isEmpty ? "Menü" : (_groups.isNotEmpty ? _groups[_tabController.index] : "Menü")} (${products.length} Ürün)',
+              '${_groups.isEmpty ? "MenÃ¼" : (_groups.isNotEmpty ? _groups[_tabController.index] : "MenÃ¼")} (${products.length} ÃœrÃ¼n)',
               style: AppTypography.titleLarge,
             ),
           );
@@ -361,7 +361,7 @@ class _RestaurantDetailScreenState
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Sol: isim + açıklama + fiyat
+            // Sol: isim + aÃ§Ä±klama + fiyat
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,8 +369,18 @@ class _RestaurantDetailScreenState
                   Text(p.name,
                       style: AppTypography.titleMedium
                           .copyWith(fontWeight: FontWeight.w700)),
-
-                  const SizedBox(height: 40),
+                  if (p.description.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      p.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       GestureDetector(
@@ -412,7 +422,7 @@ class _RestaurantDetailScreenState
                 ],
               ),
             ),
-            // Sağ: görsel
+            // SaÄŸ: gÃ¶rsel
             if (p.imageUrl != null && p.imageUrl!.isNotEmpty) ...[
               const SizedBox(width: 12),
               ClipRRect(
@@ -519,18 +529,18 @@ class _RestaurantDetailScreenState
   }
 
   Widget _errorView() => EmptyState(
-        title: 'Mağaza yüklenemedi',
-        message: 'Bağlantını kontrol edip tekrar dene.',
+        title: 'MaÄŸaza yÃ¼klenemedi',
+        message: 'BaÄŸlantÄ±nÄ± kontrol edip tekrar dene.',
         icon: Icons.error_outline_rounded,
         action: AppButton(
-          label: 'Geri dön',
+          label: 'Geri dÃ¶n',
           expanded: false,
           onPressed: () => context.pop(),
         ),
       );
 }
 
-// ── Tab Bar Delegate ──────────────────────────────────────────────
+// â”€â”€ Tab Bar Delegate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _TabBarDelegate extends SliverPersistentHeaderDelegate {
   const _TabBarDelegate(
       {required this.tabController, required this.groups});
@@ -567,3 +577,4 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(_TabBarDelegate oldDelegate) =>
       oldDelegate.groups != groups;
 }
+
