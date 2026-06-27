@@ -56,18 +56,28 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    final ok = await ref
+    // Router referansını await'ten ÖNCE yakalıyoruz: bu widget Profil
+    // sekmesinde embedded LoginScreen ise, authProvider.login() state'i
+    // erken set ettiği anda MainShell (isLoggedIn izlediği için) bu
+    // widget'ı ProfileScreen ile değiştirip unmount edebiliyor — login()
+    // future'ı dönmeden bile. O noktada context/mounted güvenilmez olur.
+    // Router referansı widget lifecycle'ından bağımsız olduğu için
+    // unmount sonrasında da güvenle yönlendirme yapabilir.
+    final router = GoRouter.of(context);
+    final user = await ref
         .read(authProvider.notifier)
         .login(_fullEmail, _password.text);
-    if (!mounted) return;
-    if (ok) {
-      final user = ref.read(authProvider).user;
-      if (user?.isCourier == true) {
-        context.go(AppRoutes.courierOrders);
+    if (user != null) {
+      debugPrint('🔍 login_screen: user.role="${user.role}", isCourier=${user.isCourier}');
+      if (user.isCourier) {
+        debugPrint('🔍 login_screen: courierOrders\'a yonlendiriliyor');
+        router.go(AppRoutes.courierOrders);
       } else {
-        context.go(AppRoutes.home);
+        debugPrint('🔍 login_screen: home\'a yonlendiriliyor');
+        router.go(AppRoutes.home);
       }
     } else {
+      if (!mounted) return;
       final error = ref.read(authProvider).error;
       AppToast.show(context, error ?? 'Giriş başarısız');
     }

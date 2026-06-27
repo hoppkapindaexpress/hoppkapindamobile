@@ -32,14 +32,12 @@ class _CourierLoginScreenState extends ConsumerState<CourierLoginScreen> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    final ok = await ref
+    final user = await ref
         .read(authProvider.notifier)
         .login(_email.text.trim(), _password.text);
     if (!mounted) return;
-    if (ok) {
-      final user = ref.read(authProvider).user;
-      AppToast.show(context, 'role: ${user?.role}');
-      if (user?.isCourier == true) {
+    if (user != null) {
+      if (user.isCourier) {
         context.go(AppRoutes.courierOrders);
       } else {
         await ref.read(authProvider.notifier).logout();

@@ -208,12 +208,10 @@ class _OrderCardState extends ConsumerState<_OrderCard> {
       await CourierService.acceptOrder(widget.order.id);
       ref.invalidate(courierOrdersProvider);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Sipariş #${widget.order.id} üstlenildi!'),
-            backgroundColor: AppColors.success,
-            behavior: SnackBarBehavior.floating,
-          ),
+        AppToast.showTop(
+          context,
+          'Sipariş #${widget.order.id} üstlenildi!',
+          color: AppColors.success,
         );
         // Benim Siparişlerim sekmesine geç (index 1) ve üstlenilen
         // siparişin detayını otomatik aç.

@@ -1,4 +1,5 @@
 ﻿import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../repositories/api_store_repository.dart';
 import '../../services/notification_service.dart';
@@ -121,8 +122,12 @@ class AuthService {
   /// 200 → courier, aksi → mevcut role'ü koru.
   Future<String> _resolveRole(AuthResult r) async {
     final rawRole = r.role ?? 'user';
+    debugPrint('🔍 _resolveRole: login yanitindan gelen rawRole = "$rawRole"');
     if (rawRole == 'courier') return 'courier';
-    if (r.token == null) return rawRole;
+    if (r.token == null) {
+      debugPrint('🔍 _resolveRole: token null, rawRole donduruluyor');
+      return rawRole;
+    }
     try {
       final dio = Dio(BaseOptions(
         baseUrl: DioFactory.baseUrl,
@@ -133,9 +138,11 @@ class AuthService {
         validateStatus: (s) => s != null && s < 500,
       ));
       final res = await dio.get('/courier/orders');
+      debugPrint('🔍 _resolveRole: /courier/orders -> statusCode=${res.statusCode}, body=${res.data}');
       if (res.statusCode == 200) return 'courier';
       return 'status_${res.statusCode}';
     } catch (e) {
+      debugPrint('🔍 _resolveRole: /courier/orders HATA -> $e');
       return 'err_${e.runtimeType}';
     }
     return rawRole;

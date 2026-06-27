@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../theme/app_colors.dart';
@@ -9,7 +8,9 @@ import '../orders/order_service.dart';
 /// Adrese göre yol tarifi modalını açar.
 ///
 /// Koordinat varsa koordinatla, yoksa adres string'iyle arama yapılır.
-/// Android'de Google Maps + Yandex Maps, iOS'ta bunlara ek Apple Maps sunulur.
+/// Google Maps, Yandex Maps ve Apple Maps — platform fark etmeksizin
+/// üçü de listelenir (Apple Maps Android'de çalışmayabilir, bkz. ilgili
+/// yorum aşağıda).
 Future<void> showNavigationSheet(
   BuildContext context,
   OrderDetail order,
@@ -154,8 +155,12 @@ class _NavigationSheet extends StatelessWidget {
       fallbackUrl: yandexFallback,
     ));
 
-    // Apple Maps — sadece iOS
-    if (Platform.isIOS) {
+    // Apple Maps — kullanıcı isteğiyle platform kısıtlaması kaldırıldı.
+    // NOT: Android'de native Apple Maps uygulaması yok; maps.apple.com
+    // web linki Android tarayıcılarında genelde çalışmıyor/boş sayfa
+    // gösteriyor. Bu seçenek Android'de görünür ama gerçek navigasyon
+    // sağlamayabilir.
+    {
       final appleUrl = hasCoords
           ? 'http://maps.apple.com/?daddr=$lat,$lng&dirflg=d'
           : 'http://maps.apple.com/?q=$encoded';

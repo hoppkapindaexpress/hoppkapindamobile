@@ -79,14 +79,23 @@ class HoppKapindaApp extends ConsumerWidget {
       // Web'de uygulamayı ortada telefon genişliğinde tut.
       // Mobilde ekran zaten dar olduğu için hiçbir etkisi olmaz.
       builder: (context, child) {
-        if (!kIsWeb) return child ?? const SizedBox.shrink();
+        // Boş alana (input olmayan herhangi bir yere) dokununca klavyeyi
+        // kapat. HitTestBehavior.translucent sayesinde alttaki buton/
+        // textfield gibi widget'ların kendi tap davranışı bloklanmıyor —
+        // sadece EK olarak klavye de kapanıyor.
+        final content = GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child ?? const SizedBox.shrink(),
+        );
+        if (!kIsWeb) return content;
         return ColoredBox(
           color: const Color(0xFFE5E5E5),
           child: Center(
             child: ClipRect(
               child: SizedBox(
                 width: 430,
-                child: child,
+                child: content,
               ),
             ),
           ),

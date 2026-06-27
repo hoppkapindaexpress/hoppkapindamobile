@@ -52,7 +52,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       icon: Icons.local_offer_rounded,
       title: 'Sana özel\nkampanyalar',
       description:
-          'İlk siparişine özel indirimler, kuponlar ve sadece üyelere özel fırsatlar seni bekliyor.',
+          'lk siparişine özel indirimler, kuponlar ve sadece üyelere özel fırsatlar seni bekliyor.',
       gradient: AppColors.accentGradient,
     ),
   ];
@@ -63,7 +63,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (_isLast) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('onboarding_seen', true);
-      if (mounted) context.go(AppRoutes.login);
+      if (mounted) context.go(AppRoutes.home);
     } else {
       _controller.nextPage(
           duration: AppDurations.page, curve: Curves.easeOutCubic);
@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPressed: () async {
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.setBool('onboarding_seen', true);
-                    if (mounted) context.go(AppRoutes.login);
+                    if (mounted) context.go(AppRoutes.home);
                   },
                   child: Text('Atla',
                       style: AppTypography.labelMedium
@@ -144,7 +144,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // İllüstrasyon yerine premium gradient daire + ikon
+          // llüstrasyon yerine premium gradient daire + ikon
           // (gerçek illüstrasyon/Lottie Faz 3'te assets ile eklenir).
           Container(
             width: 220,

@@ -72,20 +72,20 @@ class AuthNotifier extends Notifier<AuthState> {
     }
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<AppUser?> login(String email, String password) async {
     state = state.copyWith(loading: true, clearError: true);
     try {
       final service = await AuthService.create();
       final r = await service.login(email, password);
-      state = AuthState(
-        user: AppUser(name: r.name, email: r.email, phone: r.phone, role: r.role ?? 'user'),
-      );
+      final user =
+          AppUser(name: r.name, email: r.email, phone: r.phone, role: r.role ?? 'user');
+      state = AuthState(user: user);
       _refreshApiSession();
       await ref.read(addressProvider.notifier).load(); // ← giriş sonrası adresleri çek
-      return true;
+      return user;
     } catch (e) {
       state = AuthState(error: AuthService.errorMessage(e));
-      return false;
+      return null;
     }
   }
 

@@ -193,4 +193,120 @@ abstract final class AppToast {
 
   static void success(BuildContext context, String message) =>
       show(context, message, icon: Icons.check_circle_rounded);
+
+  /// Ekranın ÜSTÜNDE (AppBar'ın altında) belirip ~2.2s sonra otomatik
+  /// kaybolan banner. Normal SnackBar'ın aksine kök Overlay'e kendi
+  /// OverlayEntry'sini ekler — push ile yeni bir sayfaya geçilse bile
+  /// alttaki butonların ÜZERİNE binmez, çünkü zaten üstte gösteriliyor.
+  /// Örn: kurye bir siparişi üstlendiğinde, hemen ardından teslimat
+  /// ekranına (alt kısmında "Yola Çık" butonu olan) geçilse bile mesaj
+  /// üstte kalır, butonla çakışmaz.
+  static void showTop(
+    BuildContext context,
+    String message, {
+    IconData icon = Icons.check_circle_rounded,
+    Color? color,
+  }) {
+    final overlay = Overlay.of(context);
+    late final OverlayEntry entry;
+    entry = OverlayEntry(
+      builder: (ctx) => _TopToast(
+        message: message,
+        icon: icon,
+        color: color ?? AppColors.success,
+        onDismissed: () => entry.remove(),
+      ),
+    );
+    overlay.insert(entry);
+  }
+}
+
+class _TopToast extends StatefulWidget {
+  const _TopToast({
+    required this.message,
+    required this.icon,
+    required this.color,
+    required this.onDismissed,
+  });
+
+  final String message;
+  final IconData icon;
+  final Color color;
+  final VoidCallback onDismissed;
+
+  @override
+  State<_TopToast> createState() => _TopToastState();
+}
+
+class _TopToastState extends State<_TopToast>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 220),
+  );
+  late final Animation<Offset> _slide = Tween<Offset>(
+    begin: const Offset(0, -1),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.forward();
+    Future.delayed(const Duration(milliseconds: 2200), () async {
+      if (!mounted) return;
+      await _controller.reverse();
+      widget.onDismissed();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 0,
+      left: 0,
+      right: 0,
+      child: SafeArea(
+        bottom: false,
+        child: SlideTransition(
+          position: _slide,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.md, vertical: AppSpacing.sm),
+                decoration: BoxDecoration(
+                  color: widget.color,
+                  borderRadius: AppRadius.mdAll,
+                  boxShadow: AppShadows.elevated,
+                ),
+                child: Row(
+                  children: [
+                    Icon(widget.icon, color: Colors.white, size: 20),
+                    const SizedBox(width: AppSpacing.xs),
+                    Expanded(
+                      child: Text(
+                        widget.message,
+                        style: AppTypography.bodyMedium
+                            .copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -184,7 +184,7 @@ class _CourierProfileTab extends ConsumerWidget {
             child: OutlinedButton.icon(
               onPressed: () async {
                 await ref.read(authProvider.notifier).logout();
-                if (context.mounted) context.go(AppRoutes.login);
+                if (context.mounted) context.go(AppRoutes.home);
               },
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.error,
